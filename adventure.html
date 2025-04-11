@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>The Lost Treasure</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      background: #f2f2f2;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    button {
+      margin: 5px;
+      padding: 10px 15px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>The Lost Treasure</h1>
+  <div id="story"></div>
+  <div id="choices"></div>
+
+  <script>
+    function showStory(text, options) {
+      document.getElementById("story").innerText = text;
+      const choicesDiv = document.getElementById("choices");
+      choicesDiv.innerHTML = ""; // clear previous buttons
+
+      options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.innerText = option.text;
+        btn.onclick = option.action;
+        choicesDiv.appendChild(btn);
+      });
+    }
+
+    function startGame() {
+      showStory(
+        "Je staat aan de rand van een mysterieuze jungle. Er zijn twee paden:\n" +
+        "1. Een doornig pad door een dichte struik.\n" +
+        "2. Een duidelijk en vaak bewandeld pad.",
+        [
+          { text: "Kies pad 1", action: doornigPad },
+          { text: "Kies pad 2", action: duidelijkPad }
+        ]
+      );
+    }
+
+    function doornigPad() {
+      showStory(
+        "Je duwt jezelf door de doornstruiken. Auw! Je hebt wat schrammen...\n" +
+        "Voor je ligt een verborgen grot.",
+        [
+          { text: "Ga de grot in", action: () => einde("In de grot vind je een kist vol goud! 🏆") },
+          { text: "Blijf op het pad", action: () => einde("Je verdwaalt en wordt nooit teruggevonden 😢") },
+          { text: "Onderzoek de omgeving", action: Kist }
+        ]
+      );
+    }
+
+    function duidelijkPad() {
+      showStory(
+        "Je komt bij een brede rivier.",
+        [
+          { text: "Steek de rivier over", action: () => einde("De stroming is te sterk. Je verdrinkt. 💀") },
+          { text: "Zoek een brug", action: () => einde("Je vindt een brug en een schatkaart! 🗺️") }
+        ]
+      );
+    }
+
+    function Kist() {
+      showStory(
+        "Je ziet een kist, wat zou er in zitten? Er hangt een boom over het pad met een touw dat naar de grond gaat",
+        [
+          { text: "Je rent er zo snel mogelijk naar de kist toe", action: () => einde("Je loopt in de val en valt in een diepe put. 💀") },
+          { text: "Je loop voorzichtig naar de kist toe want je weet niet wat de touwen daar doen ", action: () => einde("Je ontwijkt de val en opent de kist vol goud. 🗺️") }
+        ]
+      );
+    }
+
+    function einde(tekst) {
+      showStory(tekst, [
+        { text: "Opnieuw spelen", action: startGame }
+      ]);
+    }
+
+    // Start het spel automatisch
+    startGame();
+  </script>
+</body>
+</html>
